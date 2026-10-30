@@ -1,0 +1,114 @@
+import { StatusCodes } from 'http-status-codes'
+import { userService } from '~/services/userService'
+import ms from 'ms'
+import ApiError from '~/utils/ApiError'
+import { pickUser } from '~/utils/formatters'
+
+const createNew = async (req, res, next) => {
+  try {
+    const createdUser = await userService.createNew(req.body)
+    res.status(StatusCodes.CREATED).json(createdUser)
+  } catch (error) { next(error) }
+}
+
+const verifyAccount = async (req, res, next) => {
+  try {
+    const result = await userService.verifyAccount(req.body)
+    res.status(StatusCodes.OK).json(result)
+  } catch (error) { next(error) }
+}
+
+const login = async (req, res, next) => {
+  try {
+    const result = await userService.login(req.body)
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: ms('14d')
+    }
+
+    res.cookie('accessToken', result.accessToken, cookieOptions)
+    res.cookie('refreshToken', result.refreshToken, cookieOptions)
+
+    res.status(StatusCodes.OK).json(result)
+  } catch (error) { next(error) }
+}
+
+const googleLogin = async (req, res, next) => {
+  try {
+    const result = await userService.googleLogin(req.body)
+
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: ms('14d')
+    }
+
+    res.cookie('accessToken', result.accessToken, cookieOptions)
+    res.cookie('refreshToken', result.refreshToken, cookieOptions)
+
+    res.status(StatusCodes.OK).json(result)
+  } catch (error) { next(error) }
+}
+
+const logout = async (req, res, next) => {
+  try {
+    const cookieOptions = {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none'
+    }
+
+    res.clearCookie('accessToken', cookieOptions)
+    res.clearCookie('refreshToken', cookieOptions)
+
+    res.status(StatusCodes.OK).json({ loggedOut: true })
+  } catch (error) { next(error) }
+}
+
+const refreshToken = async (req, res, next) => {
+  try {
+    const clientRefreshToken = req.cookies?.refreshToken || req.headers['x-refresh-token'] || req.body?.refreshToken
+    const result = await userService.refreshToken(clientRefreshToken)
+
+    res.cookie('accessToken', result.accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: ms('14d')
+    })
+
+    res.status(StatusCodes.OK).json(result)
+  } catch (error) {
+    next(new ApiError(StatusCodes.UNAUTHORIZED, error?.message || 'Please Sign In!'))
+  }
+}
+
+const update = async (req, res, next) => {
+  try {
+    const userId = req.jwtDecoded._id
+    const userAvatarFile = req.file
+    const updatedUser = await userService.update(userId, req.body, userAvatarFile)
+    res.status(StatusCodes.OK).json(updatedUser)
+  } catch (error) { next(error) }
+}
+
+const getProfile = async (req, res, next) => {
+  try {
+    res.status(StatusCodes.OK).json(pickUser(req.currentUser))
+  } catch (error) { next(error) }
+}
+
+export const userController = {
+  createNew,
+  verifyAccount,
+  login,
+  googleLogin,
+  logout,
+  refreshToken,
+  update,
+  getProfile
+}
