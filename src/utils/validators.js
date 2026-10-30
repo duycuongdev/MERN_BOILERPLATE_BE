@@ -10,3 +10,4 @@ export const PASSWORD_CONFIRMATION_MESSAGE = 'Password Confirmation does not mat
 
 export const LIMIT_COMMON_FILE_SIZE = 10485760 // 10 MB in bytes
 export const ALLOW_COMMON_FILE_TYPES = ['image/jpg', 'image/jpeg', 'image/png']
+

@@ -18,3 +18,4 @@ Router.route('/:id')
   .delete(exampleValidation.validateId, exampleController.deleteItem)
 
 export const exampleRoute = Router
+

@@ -29,3 +29,4 @@ export const initSocketEvents = (socket, io) => {
     io.emit('BE_BROADCAST_ALL', payload)
   })
 }
+

@@ -18,3 +18,4 @@ export const errorHandlingMiddleware = (err, req, res, next) => {
 
   res.status(responseError.statusCode).json(responseError)
 }
+

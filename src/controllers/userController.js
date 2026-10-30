@@ -112,3 +112,4 @@ export const userController = {
   update,
   getProfile
 }
+

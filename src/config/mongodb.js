@@ -24,3 +24,4 @@ export const GET_DB = () => {
   if (!databaseInstance) throw new Error('Must connect to Database first!')
   return databaseInstance
 }
+

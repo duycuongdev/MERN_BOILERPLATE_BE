@@ -48,3 +48,4 @@ export const exampleController = {
   update,
   deleteItem
 }
+

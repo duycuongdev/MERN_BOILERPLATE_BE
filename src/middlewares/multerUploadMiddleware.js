@@ -28,3 +28,4 @@ export const multerUploadMiddleware = {
   upload,
   uploadAttachment
 }
+

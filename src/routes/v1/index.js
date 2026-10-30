@@ -20,3 +20,4 @@ Router.use('/users', userRoute)
 Router.use('/examples', exampleRoute)
 
 export const APIs_V1 = Router
+

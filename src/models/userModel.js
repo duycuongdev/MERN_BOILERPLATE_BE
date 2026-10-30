@@ -77,3 +77,4 @@ export const userModel = {
   update,
   deleteOneById
 }
+

@@ -21,3 +21,4 @@ export const corsOptions = {
   // Required for receiving and sending cookies (HttpOnly tokens)
   credentials: true
 }
+

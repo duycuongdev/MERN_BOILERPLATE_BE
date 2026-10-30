@@ -34,3 +34,4 @@ module.exports = {
     'arrow-spacing': 1
   }
 }
+

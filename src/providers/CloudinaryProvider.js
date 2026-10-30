@@ -23,3 +23,4 @@ const streamUpload = (fileBuffer, folderName) => {
 }
 
 export const cloudinaryProvider = { streamUpload }
+

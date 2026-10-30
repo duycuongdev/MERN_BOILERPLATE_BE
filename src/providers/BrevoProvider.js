@@ -43,3 +43,4 @@ const sendEmail = async (recipientEmail, customSubject, htmlContent) => {
 export const brevoProvider = {
   sendEmail
 }
+

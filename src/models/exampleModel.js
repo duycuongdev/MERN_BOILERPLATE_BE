@@ -112,3 +112,4 @@ export const exampleModel = {
   update,
   softDelete
 }
+
